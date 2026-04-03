@@ -323,22 +323,17 @@
 
     .screenshot-slot {
       width: 200px;
-      height: 420px;
-      background: var(--surface);
-      border-radius: 36px;
-      border: 1.5px dashed var(--muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: var(--text-ter);
-      font-size: 12px;
-      font-weight: 500;
       flex-shrink: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
     }
-    .screenshot-slot.center { height: 460px; }
-    .screenshot-slot svg { opacity: 0.35; }
+    .screenshot-slot img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .screenshot-slot.center { width: 220px; }
 
     /* ── CTA BANNER ── */
     .cta-banner {
@@ -390,8 +385,8 @@
       .categories-section { padding: 56px 24px; }
       .cat-grid { grid-template-columns: repeat(2, 1fr); }
       .screenshots { padding: 60px 24px; }
-      .screenshot-slot { width: 160px; height: 336px; }
-      .screenshot-slot.center { height: 368px; }
+      .screenshot-slot { width: 140px; }
+      .screenshot-slot.center { width: 160px; }
       .cta-banner { padding: 60px 24px; }
       footer { padding: 24px; flex-direction: column; align-items: flex-start; }
     }
@@ -485,19 +480,16 @@
   <section class="screenshots">
     <p class="section-eyebrow">The app</p>
     <h2>See it in action</h2>
-    <p class="screenshots-sub">Screenshots coming soon.</p>
+    <p class="screenshots-sub">Designed for reading. Built for curiosity.</p>
     <div class="screenshots-row">
       <div class="screenshot-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#526077" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        <span>Feed</span>
+        <img src="library_screenshot.png" alt="LearnFeed Library" />
       </div>
       <div class="screenshot-slot center">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#526077" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        <span>Bite Card</span>
+        <img src="feed_screenshot.png" alt="LearnFeed Feed" />
       </div>
       <div class="screenshot-slot">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#526077" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        <span>Profile</span>
+        <img src="profile_screenshot.png" alt="LearnFeed Profile" />
       </div>
     </div>
   </section>
