@@ -72,6 +72,21 @@
       color: #526077;
     }
 
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: -apple-system, 'Helvetica Neue', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 32px;
+      opacity: 0.8;
+      transition: opacity 0.15s;
+    }
+    .back-link:hover { opacity: 1; }
+
     footer {
       margin-top: 64px;
       padding-top: 24px;
@@ -92,6 +107,7 @@
   <div class="container">
 
     <header>
+      <a class="back-link" href="index.html">← Back</a>
       <a class="wordmark" href="https://www.learnfeed.ch">LearnFeed</a>
       <h1>Privacy Policy</h1>
       <p class="meta">Last updated: April 2026</p>

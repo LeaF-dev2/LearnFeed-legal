@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LearnFeed — Daily knowledge, beautifully curated.</title>
+  <meta name="description" content="Replace mindless scrolling with something that sticks. Bite-sized knowledge from history, science, philosophy, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #f9f9fb;
+      --surface:  #ffffff;
+      --text:     #2e3336;
+      --text-sec: #5b6063;
+      --text-ter: #777b7f;
+      --accent:   #526077;
+      --muted:    #c9d8f4;
+      --pill:     #eceef1;
+      --border:   #eceef1;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .wordmark {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text);
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 20px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nav-badge:hover { opacity: 0.8; }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100svh - 61px);
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 56px 80px 64px;
+      gap: 0;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--pill);
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      width: fit-content;
+    }
+
+    h1 {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(38px, 4vw, 56px);
+      font-weight: 400;
+      line-height: 1.12;
+      color: var(--text);
+      margin-bottom: 24px;
+    }
+
+    /* rotating word */
+    .rotating-word {
+      font-style: italic;
+      color: var(--accent);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      display: inline-block;
+    }
+    .rotating-word.fade-out {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    .rotating-word.fade-in {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    .rotating-word.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--text-sec);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 400px;
+    }
+
+    .cta-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-sec);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* ── HERO IMAGE ── */
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      align-self: stretch;
+    }
+
+    .hero-right .elephant {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%, black 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 30%, black 100%);
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 48px;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      padding: 28px;
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .feature-icon { font-size: 20px; margin-bottom: 14px; }
+
+    .feature h3 {
+      font-family: 'Newsreader', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.65;
+    }
+
+    /* ── CATEGORIES ── */
+    .categories-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 48px;
+    }
+
+    .categories-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .categories-inner h2 {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(26px, 3vw, 36px);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .categories-inner .sub {
+      font-size: 15px;
+      color: var(--text-sec);
+      margin-bottom: 40px;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .cat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .cat-emoji { font-size: 18px; flex-shrink: 0; }
+    .cat-name { font-size: 14px; font-weight: 600; color: var(--text); }
+
+    /* ── SCREENSHOTS ── */
+    .screenshots {
+      padding: 80px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .screenshots h2 {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .screenshots-sub {
+      font-size: 15px;
+      color: var(--text-sec);
+      margin-bottom: 52px;
+    }
+
+    .screenshots-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .screenshot-slot {
+      width: 200px;
+      height: 420px;
+      background: var(--surface);
+      border-radius: 36px;
+      border: 1.5px dashed var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text-ter);
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .screenshot-slot.center { height: 460px; }
+    .screenshot-slot svg { opacity: 0.35; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      text-align: center;
+      padding: 80px 48px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .cta-banner p {
+      font-size: 16px;
+      color: var(--text-sec);
+      margin-bottom: 36px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-left { font-size: 13px; color: var(--text-ter); }
+    .footer-left a { color: var(--text-sec); text-decoration: none; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--text-sec); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      nav { padding: 16px 24px; }
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 60px; min-height: unset; }
+      .hero-right { height: 360px; }
+      .features { padding: 60px 24px; }
+      .features-grid { grid-template-columns: 1fr; gap: 14px; }
+      .categories-section { padding: 56px 24px; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .screenshots { padding: 60px 24px; }
+      .screenshot-slot { width: 160px; height: 336px; }
+      .screenshot-slot.center { height: 368px; }
+      .cta-banner { padding: 60px 24px; }
+      footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="wordmark" href="#">LearnFeed</a>
+    <a class="nav-badge" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+        <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.78 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+      </svg>
+      App Store
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Knowledge app for iOS</div>
+      <h1>
+        Replace doom scrolling<br>
+        with <span class="rotating-word visible" id="rotating-word">history.</span>
+      </h1>
+      <p class="hero-sub">LearnFeed delivers curated knowledge bites — one idea at a time, designed for reading. No noise, no algorithm, just knowledge.</p>
+      <div class="cta-group">
+        <a class="btn-primary" href="#">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.78 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+          </svg>
+          Download for free
+        </a>
+        <a class="btn-secondary" href="#features">Explore ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <img class="elephant" src="elephant.png" alt="" aria-hidden="true" />
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <p class="section-eyebrow">Why LearnFeed</p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">✦</div>
+        <h3>Curated, not algorithmic</h3>
+        <p>Every bite is curated — more than 5,000 await you. Inspired by books and research you can actually trust. Always cited, never dumbed down.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">◎</div>
+        <h3>Designed for reading</h3>
+        <p>Editorial typography, no distractions, no infinite scroll. LearnFeed is built to make reading feel effortless and rewarding.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">◈</div>
+        <h3>Builds a daily habit</h3>
+        <p>Track your streak, save your favourite bites, and build a personal library of ideas that matter to you — across 13 topics.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section">
+    <div class="categories-inner">
+      <h2>13 topics. 5,000+ bites.</h2>
+      <p class="sub">Choose what interests you — your feed adapts accordingly.</p>
+      <div class="cat-grid">
+        <div class="cat-item"><span class="cat-emoji">📚</span><span class="cat-name">History</span></div>
+        <div class="cat-item"><span class="cat-emoji">🔬</span><span class="cat-name">Science</span></div>
+        <div class="cat-item"><span class="cat-emoji">💭</span><span class="cat-name">Philosophy</span></div>
+        <div class="cat-item"><span class="cat-emoji">🧠</span><span class="cat-name">Psychology</span></div>
+        <div class="cat-item"><span class="cat-emoji">📈</span><span class="cat-name">Economics</span></div>
+        <div class="cat-item"><span class="cat-emoji">🎨</span><span class="cat-name">Art &amp; Design</span></div>
+        <div class="cat-item"><span class="cat-emoji">📖</span><span class="cat-name">Literature</span></div>
+        <div class="cat-item"><span class="cat-emoji">💻</span><span class="cat-name">Technology</span></div>
+        <div class="cat-item"><span class="cat-emoji">🌿</span><span class="cat-name">Nature</span></div>
+        <div class="cat-item"><span class="cat-emoji">🎵</span><span class="cat-name">Music</span></div>
+        <div class="cat-item"><span class="cat-emoji">🏛️</span><span class="cat-name">Politics</span></div>
+        <div class="cat-item"><span class="cat-emoji">🌍</span><span class="cat-name">Geography</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section class="screenshots">
+    <p class="section-eyebrow">The app</p>
+    <h2>See it in action</h2>
+    <p class="screenshots-sub">Screenshots coming soon.</p>
+    <div class="screenshots-row">
+      <div class="screenshot-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#526077" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>Feed</span>
+      </div>
+      <div class="screenshot-slot center">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#526077" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>Bite Card</span>
+      </div>
+      <div class="screenshot-slot">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#526077" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span>Profile</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Start your streak today.</h2>
+    <p>Free to download. No ads. No tracking. Just knowledge.</p>
+    <a class="btn-primary" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.78 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+      </svg>
+      Download on the App Store
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-left">© 2026 LearnFeed · <a href="mailto:support@learnfeed.ch">support@learnfeed.ch</a></span>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-use.html">Terms of Use</a>
+    </div>
+  </footer>
+
+  <!-- ROTATING WORD -->
+  <script>
+    const words = ["history.", "curiosity.", "science.", "philosophy.", "something real."];
+    const el = document.getElementById('rotating-word');
+    let index = 0;
+
+    function next() {
+      el.classList.remove('visible');
+      el.classList.add('fade-out');
+      setTimeout(() => {
+        index++;
+        el.textContent = words[index];
+        el.classList.remove('fade-out');
+        el.classList.add('fade-in');
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          el.classList.remove('fade-in');
+          el.classList.add('visible');
+        }));
+        if (index < words.length - 1) setTimeout(next, 1800);
+      }, 350);
+    }
+
+    setTimeout(next, 1800);
+  </script>
+
+</body>
+</html>
