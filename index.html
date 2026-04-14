@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LearnFeed — Replace doom scrolling with daily knowledge bites</title>
-  <meta name="description" content="LearnFeed is a free iOS app that replaces mindless scrolling with 5,000+ curated knowledge bites from history, science, philosophy, and 10 more topics. No ads, no algorithm." />
-  <meta name="keywords" content="LearnFeed, knowledge app, learn something new, daily learning, bite-sized knowledge, history, science, philosophy, education app, iOS, replace doom scrolling, reading app" />
+  <meta name="description" content="LearnFeed is a free iOS app that replaces mindless scrolling with 5,000+ curated knowledge bites from history, science, philosophy, and 10 more topics. Quiz mode, PDF export, daily reading goals. No ads, no algorithm." />
+  <meta name="keywords" content="LearnFeed, knowledge app, learn something new, daily learning, bite-sized knowledge, history, science, philosophy, education app, iOS, replace doom scrolling, reading app, knowledge quiz, trivia app" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="canonical" href="https://www.learnfeed.ch/" />
@@ -257,7 +257,7 @@
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
 
@@ -415,12 +415,15 @@
     .footer-links a:hover { color: var(--text); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 860px) {
       nav { padding: 16px 24px; }
       .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 60px; min-height: unset; }
       .hero-right { height: 360px; }
       .features { padding: 60px 24px; }
-      .features-grid { grid-template-columns: 1fr; gap: 14px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
       .categories-section { padding: 56px 24px; }
       .cat-grid { grid-template-columns: repeat(2, 1fr); }
       .screenshots { padding: 60px 24px; }
@@ -488,7 +491,12 @@
       <div class="feature">
         <div class="feature-icon">◈</div>
         <h3>Builds a daily habit</h3>
-        <p>Track your streak, save your favourite bites, and build a personal library of ideas that matter to you — across 13 topics.</p>
+        <p>Set a daily reading goal, track your streak, and save your favourite bites. Export your library as a beautifully styled PDF to read offline or share.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">◇</div>
+        <h3>Test what you've read</h3>
+        <p>Unlock the Quiz after your first 25 bites. Choose Easy for recall or Hard for deeper thinking — questions are drawn from bites you've actually read.</p>
       </div>
     </div>
   </section>
