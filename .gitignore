@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# TLS material. Never commit these: private.pem is a private key, and this repo
+# is public. Certificates are managed by the host/CDN, not from here.
+SSL*/
+*.pem
+*.key
+*.crt
